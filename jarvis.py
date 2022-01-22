@@ -5,6 +5,7 @@ import datetime
 import wikipedia
 import smtplib
 import speech_recognition as sr
+from geopy.geocoders import Nominatim
 
 
 
@@ -13,6 +14,7 @@ voices=engine.getProperty('voices')
 rate=engine.getProperty('rate')
 engine.setProperty('rate',150)
 engine.setProperty('voices',voices[1].id)
+
 
 def speak(audio):
     engine.say(audio)
@@ -50,6 +52,26 @@ def takeCommand():
         return "None"
     speak(f"You asked for {query}")
     return query    
+
+
+def get_coordinates(address_):
+     # calling the Nominatim tool
+    loc = Nominatim(user_agent="GetLoc")
+
+    try: 
+        getLoc = loc.geocode(address_)
+ 
+        print(getLoc.address)
+        
+        co_ordinate="Latitude="+str(getLoc.latitude)+"Longitude="+str(getLoc.longitude)
+        speak()
+
+        print(co_ordinate)
+
+    except Exception as e:
+        speak("Please give your location again")  
+        address=takeCommand().lower()
+        get_coordinates(address)  
 
 if __name__== "__main__":
     wishMe()
@@ -92,6 +114,13 @@ if __name__== "__main__":
         elif 'the time' in query:
             strTime=datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"Sir,the time is{strTime}")
+        
+        elif "my co-ordinate" in query:
+            speak("what is your location?")
+            address=takeCommand().lower()
+            get_coordinates(address)
+
+
         else:
             speak("Sorry I cant recognise,Please speak again")
 
