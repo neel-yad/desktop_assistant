@@ -1,13 +1,12 @@
-import os
-import webbrowser
-import pyttsx3
 import datetime
-import wikipedia
+import os
 import smtplib
+import webbrowser
+
+import pyttsx3
 import speech_recognition as sr
+import wikipedia
 from geopy.geocoders import Nominatim
-
-
 
 engine=pyttsx3.init('sapi5')
 voices=engine.getProperty('voices')
@@ -77,8 +76,8 @@ def sendEmail(to, content):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
-    server.login('neerjyadav21@gmail.com', 'neeraj21@')
-    server.sendmail('neerjyadav21@gmail.com', to, content)
+    server.login('youremail@gmail.com', 'your-password')
+    server.sendmail('youremail@gmail.com', to, content)
     server.close()
     
 if __name__== "__main__":
@@ -128,7 +127,17 @@ if __name__== "__main__":
             address=takeCommand().lower()
             get_coordinates(address)
 
-
+        elif 'send email' in query:
+            try:
+                speak("What should I say?")
+                content = takeCommand()
+                to = "20BCS091@iiitdwd.ac.in"    
+                sendEmail(to, content)
+                speak("Email has been sent!")
+            except Exception as e:
+                print(e)
+                speak("Sorry my friend harry bhai. I am not able to send this email")    
+        
         else:
             speak("Sorry I cant recognise,Please speak again")
 
