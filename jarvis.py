@@ -73,6 +73,14 @@ def get_coordinates(address_):
         address=takeCommand().lower()
         get_coordinates(address)  
 
+def sendEmail(to, content):
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login('neerjyadav21@gmail.com', 'neeraj21@')
+    server.sendmail('neerjyadav21@gmail.com', to, content)
+    server.close()
+    
 if __name__== "__main__":
     wishMe()
     while 1:
