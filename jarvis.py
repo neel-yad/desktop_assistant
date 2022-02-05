@@ -2,11 +2,13 @@ import datetime
 import os
 import smtplib
 import webbrowser
-
+from pandas import factorize
 import pyttsx3
 import speech_recognition as sr
 import wikipedia
 from geopy.geocoders import Nominatim
+
+from bs4 import BeautifulSoup
 
 engine=pyttsx3.init('sapi5')
 voices=engine.getProperty('voices')
@@ -138,6 +140,23 @@ if __name__== "__main__":
                 print(e)
                 speak("Sorry my friend harry bhai. I am not able to send this email")    
         
+        elif 'open facebook' in query:
+            try:
+                from googlesearch import search
+            except:
+                speak("Failed to import Google Search")    
+            
+            query_1='facebook'
+            for j in search(query, tld="co.in", num=1, stop=1):
+                webbrowser.open(j)
+         
+        elif 'open github' in query:
+            webbrowser.open("https://github.com/neel-yad") 
+
+        elif 'open instagram' in query:
+            webbrowser.open("https://www.instagram.com/")
+
+
         else:
             speak("Sorry I cant recognise,Please speak again")
 
